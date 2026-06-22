@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>球速体育 · 知识库入口</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; background: #f4f6f9; color: #1e1f24; line-height: 1.6; }
+        a { color: #c03a2b; text-decoration: none; border-bottom: 1px dotted transparent; transition: border-color .2s, color .2s; }
+        a:hover, a:focus { color: #8e231a; border-bottom-color: #c03a2b; }
+
+        /* 深色头图 hero */
+        .hero { background: linear-gradient(145deg, #0b121c 0%, #1b2433 100%); color: #e5e9f0; padding: 4rem 1.5rem 3rem; text-align: center; position: relative; overflow: hidden; }
+        .hero::after { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 20% 80%, rgba(192,58,43,0.08) 0%, transparent 70%); pointer-events: none; }
+        .hero h1 { font-size: 2.4rem; font-weight: 600; letter-spacing: -0.02em; margin-bottom: .35rem; }
+        .hero .sub { font-size: 1rem; color: #9aa5b9; max-width: 600px; margin: .5rem auto 1.8rem; line-height: 1.5; }
+        .hero-meta { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem 2.2rem; font-size: .9rem; color: #b3bfd3; }
+        .hero-meta span { display: inline-flex; align-items: center; gap: .5rem; }
+        .hero-meta i { font-style: normal; background: #2b384b; padding: .2rem .6rem; border-radius: 30px; font-size: .75rem; color: #c6d0e0; }
+
+        /* 浅色正文容器 */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1.5rem; }
+        .main-section { background: #ffffff; margin: -1.8rem auto 2.5rem; padding: 2.5rem 2rem 2rem; border-radius: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.04); position: relative; z-index: 2; }
+
+        /* 目录感布局：卡片网格 */
+        .grid-directory { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 2rem 0 1.2rem; }
+        .dir-card { background: #f9fafc; border-radius: 16px; padding: 1.4rem 1.5rem 1.5rem; border: 1px solid #edf0f5; transition: box-shadow .25s, border-color .2s; }
+        .dir-card:hover { border-color: #d9dce4; box-shadow: 0 6px 16px rgba(0,0,0,0.03); }
+        .dir-card h3 { font-size: 1rem; font-weight: 600; color: #1a1e2b; margin-bottom: .5rem; display: flex; align-items: center; gap: .5rem; }
+        .dir-card h3::before { content: '▹'; color: #c03a2b; font-size: 1.2rem; }
+        .dir-card p { font-size: .9rem; color: #4b505e; margin-bottom: .35rem; }
+        .dir-card .tag { font-size: .75rem; background: #eef0f5; padding: .15rem .65rem; border-radius: 30px; color: #3a4153; display: inline-block; margin-top: .3rem; }
+
+        /* 说明区 / 提示区 混合 */
+        .info-box { background: #f3f5fa; border-left: 4px solid #c03a2b; padding: 1.2rem 1.6rem; border-radius: 8px; margin: 2rem 0 1.2rem; display: flex; flex-wrap: wrap; align-items: flex-start; gap: .8rem 1.8rem; }
+        .info-box .label { font-weight: 600; font-size: .85rem; text-transform: uppercase; letter-spacing: .04em; color: #2f3749; min-width: 60px; }
+        .info-box .text { flex: 1; min-width: 200px; font-size: .92rem; color: #1f283b; }
+
+        .tip-group { display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.8rem 0; }
+        .tip-item { background: #ffffff; border: 1px solid #e6eaf0; border-radius: 40px; padding: .35rem 1.2rem .35rem 1.6rem; display: inline-flex; align-items: center; gap: .5rem; font-size: .85rem; color: #1c2332; }
+        .tip-item strong { font-weight: 600; color: #c03a2b; }
+
+        /* 相关信息区：faq 摘要样式 */
+        .related-area { margin: 2.2rem 0 1rem; }
+        .related-area h2 { font-size: 1.1rem; font-weight: 600; color: #131721; letter-spacing: -0.01em; border-bottom: 2px solid #eef1f7; padding-bottom: .5rem; margin-bottom: 1.2rem; display: flex; align-items: center; gap: .6rem; }
+        .related-area h2::after { content: ''; flex: 1; height: 1px; background: #eef1f7; }
+        .faq-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1rem 1.8rem; margin-bottom: .3rem; }
+        .faq-item { padding: .4rem 0; }
+        .faq-q { font-weight: 500; font-size: .85rem; color: #20273a; margin-bottom: .15rem; }
+        .faq-a { font-size: .82rem; color: #5a6277; line-height: 1.45; }
+
+        .footnote { font-size: .8rem; color: #6b7285; border-top: 1px solid #e8ecf3; padding-top: 1.2rem; margin-top: 2.2rem; text-align: center; }
+        .footnote a { color: #354155; border-bottom: 1px solid #d2d7e2; }
+        .footnote a:hover { color: #c03a2b; }
+
+        /* 响应式细节 */
+        @media (max-width: 640px) {
+            .hero { padding: 2.8rem 1rem 2.5rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .main-section { padding: 1.8rem 1rem 1.5rem; margin-top: -1.2rem; }
+            .grid-directory { grid-template-columns: 1fr; gap: 1rem; }
+            .info-box { flex-direction: column; gap: .3rem; }
+            .tip-group { gap: .6rem; }
+            .faq-row { grid-template-columns: 1fr; }
+        }
+        @media (min-width: 768px) {
+            .hero h1 { font-size: 2.8rem; }
+            .main-section { padding: 3rem 2.8rem 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 深色头图 hero 区域，强调再次访问与收藏 -->
+    <header class="hero">
+        <h1>球速体育 · 知识库</h1>
+        <p class="sub">持续关注 · 信息聚合 · 快捷入口</p>
+        <div class="hero-meta">
+            <span>📌 再次访问 <i>Ctrl+D</i></span>
+            <span>🔖 收藏至知识库 <i>书签</i></span>
+            <span>🔄 内容更新 <i>月度</i></span>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="main-section">
+
+            <!-- 从再次访问 / 收藏展开的说明区 + 提示区 -->
+            <div class="info-box">
+                <span class="label">📋 说明</span>
+                <span class="text">本页作为访问 <a href="https://ssl-qiususport.com">球速体育</a> 的补充信息入口，汇集常见模块与背景资料。适合在需要快速查阅相关资源时使用，建议添加浏览器书签以便再次访问。</span>
+            </div>
+
+            <div class="tip-group">
+                <span class="tip-item"><strong>✦</strong> 收藏本站后，可随时回顾</span>
+                <span class="tip-item"><strong>✦</strong> 知识库定期整合公开内容</span>
+                <span class="tip-item"><strong>✦</strong> 推荐使用桌面端浏览目录</span>
+            </div>
+
+            <!-- 目录感布局：卡片网格 -->
+            <div class="grid-directory">
+                <div class="dir-card">
+                    <h3>平台概况</h3>
+                    <p>基础信息、服务范围与定位说明。适用于新用户快速了解背景。</p>
+                    <span class="tag">关于</span>
+                </div>
+                <div class="dir-card">
+                    <h3>使用指引</h3>
+                    <p>界面导航、功能模块及常见操作路径。</p>
+                    <span class="tag">帮助</span>
+                </div>
+                <div class="dir-card">
+                    <h3>内容分类</h3>
+                    <p>体育项目、赛事数据、资讯动态等目录索引。</p>
+                    <span class="tag">索引</span>
+                </div>
+                <div class="dir-card">
+                    <h3>持续关注</h3>
+                    <p>通过书签或信息聚合工具保持跟进。</p>
+                    <span class="tag">收藏</span>
+                </div>
+            </div>
+
+            <!-- 相关信息区：FAQ 摘要，体现知识库入口气质 -->
+            <div class="related-area">
+                <h2>相关信息 · FAQ 摘要</h2>
+                <div class="faq-row">
+                    <div class="faq-item">
+                        <div class="faq-q">如何快速回到本页？</div>
+                        <div class="faq-a">建议将本页添加至浏览器书签，或使用历史记录中的「再次访问」功能。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">知识库更新频率？</div>
+                        <div class="faq-a">通常每月整合一次公开资源，涉及平台调整时会及时补充。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">是否包含外部链接？</div>
+                        <div class="faq-a">部分模块会指向 <a href="https://ssl-qiususport.com">球速体育</a> 的对应页面，便于直接使用。</div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-q">内容来源可靠吗？</div>
+                        <div class="faq-a">所有信息均整理自公开渠道及平台自身说明，不包含主观推断。</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 额外提示区，体现持续关注主题 -->
+            <div style="background: #fafbfd; border-radius: 12px; padding: 1rem 1.5rem; margin: 1.6rem 0 0.4rem; border: 1px solid #eef2f8;">
+                <p style="font-size: .88rem; color: #2d3548; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;">
+                    <span style="font-size: 1.1rem;">🔁</span> 
+                    持续关注：通过书签收藏本页可随时返回信息目录。如需访问平台首页，直接前往 
+                    <a href="https://ssl-qiususport.com" style="font-weight: 500;">球速体育</a> 
+                    即可。
+                </p>
+            </div>
+
+            <div class="footnote">
+                <span>知识库入口 · 持续更新 · <a href="https://ssl-qiususport.com">球速体育</a></span>
+            </div>
+
+        </section>
+    </div>
+
+</body>
+</html>
